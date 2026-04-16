@@ -1,6 +1,5 @@
 document.getElementById('upload-docx').addEventListener('change', function(event) {
     const reader = new FileReader();
-    console.log(reader);
     const file = event.target.files[0];
 
     if (!file) return;
@@ -22,8 +21,26 @@ function displayResult(result) {
     document.getElementById('output').innerHTML = text;
     
     // Sau khi có 'text', bạn có thể bắt đầu thuật toán tách 3 phần tại đây
-    const arr = text.split('\n');
+
+    // const arr = text.replace(/<p>/g,"").split("</p>");
+    // console.log(arr)
+    const arr = text.split(/(<strong>READING PASSAGE \d+<\/strong>)/g);
     console.log(arr)
+    
+    // Tách các reading passage ra
+    // const regex = /s/g;
+    // for (let i = 1; i < arr.length; i++) {
+    //     const element = arr[i];
+    //     // if(element )
+        
+    // }
+
+    // Tách paragraph ra khỏi question
+
+    // Nhập đoạn văn lại
+    // Nhập question lại
+    // Phần nào in đậm <strong> trong question là đáp án.
+
 }
 
 function handleError(err) {
