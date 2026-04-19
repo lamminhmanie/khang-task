@@ -8,7 +8,7 @@ document.getElementById('upload-docx').addEventListener('change', function(event
         const arrayBuffer = loadEvent.target.result; // Dữ liệu nhị phân của file
         // Sử dụng Mammoth để chuyển sang Plain Text (văn bản thuần)
         // Dùng extractRawText sẽ giúp bạn dễ xử lý thuật toán tách file hơn convertToHtml
-        mammoth.convertToHtml({ arrayBuffer: arrayBuffer })
+        mammoth.extractRawText({ arrayBuffer: arrayBuffer })
             .then(displayResult)
             .catch(handleError);
     };
@@ -24,22 +24,17 @@ function displayResult(result) {
 
     // const arr = text.replace(/<p>/g,"").split("</p>");
     // console.log(arr)
-    const arr = text.split(/(<strong>READING PASSAGE \d+<\/strong>)/g);
-    console.log(arr)
+    const array = text.split(/(READING PASSAGE \d+)/g);
+    console.log(array);
+    const paragraphAndQuestion = []
+    for (let index = 2; index < array.length; index += 2) {
+        const element = array[index];
+        paragraphAndQuestion.push(element);
+    }
+    const paragraph = paragraphAndQuestion[0].split(/(\n\n\n\d+.)/g);
+    console.log(paragraph)
     
-    // Tách các reading passage ra
-    // const regex = /s/g;
-    // for (let i = 1; i < arr.length; i++) {
-    //     const element = arr[i];
-    //     // if(element )
-        
-    // }
-
-    // Tách paragraph ra khỏi question
-
-    // Nhập đoạn văn lại
-    // Nhập question lại
-    // Phần nào in đậm <strong> trong question là đáp án.
+    
 
 }
 
