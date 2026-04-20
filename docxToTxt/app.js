@@ -17,45 +17,46 @@ document.getElementById('upload-docx').addEventListener('change', function(event
 });
 
 function displayResult(result) {
-    const text = result.value; // Đây là toàn bộ chữ trong file Word của bạn
+    const text = result.value; // Đây là toàn bộ chữ trong file Word thành html tag
     document.getElementById('output').innerHTML = text;
     
-    // Sau khi có 'text', bạn có thể bắt đầu thuật toán tách 3 phần tại đây
+    //Tách mỗi cặp <p></p> thành một phần tử trong mảng
+    let tagSplit = text.split(/(<p>.*?<\/p>)/g)
+    tagSplit = tagSplit.filter(item => item !== "");
+  
+    //Khai báo array chứa paragraph
+    let paragraph = [];
+    
+    //Array chứa index bắt đầu tiêu đề đoạn paragraph
+    const indexParagraphStartArr = [];
 
-    // const arr = text.replace(/<p>/g,"").split("</p>");
-    // console.log(arr)
-    const array = text.split(/(<p><strong>READING PASSAGE \d+\t*<\/strong><\/p>)/g);
-    console.log(array);
-    const paragraph = []
-    const question = [];
-    for (let index = 2; index < array.length; index += 2) {
-        const element = array[index].split(/(<\/p><p>\d+.)/g);
-        paragraph.push(array[index - 1])
-        paragraph.push([...element.slice(0,1),"</p>"].join(""))
-        question.push(array[index - 1])
-        question.push(element.slice(1))
-    }
-    
-    
-    question.forEach((element,i) => {
-        if(i % 2 !== 0){
-            element.forEach((value, j) => {
-                if(j % 2 !== 0){
-                    element[j] = [element[j - 1].replace("</p>",""),element[j],"</p>"].join("");
-                }
-            });
-            question[i] = element.filter((_, index) => {
-                return index % 2 !== 0;
-            });
+    //Lấy các index bắt đầu paragraph
+    for(let i = 0; i < tagSplit.length; i++){
+        if((/<p><strong>READING PASSAGE \d+\t*<\/strong><\/p>/g).test(tagSplit[i])){
+            indexParagraphStartArr.push(i);
         }
-    });
-    
+    }
 
-    console.log(paragraph);
-    console.log(question);
-    // console.log(paragraphAndQuestion[0].split(/(<\/p><p>\d+.)/g))
+    //Đẩy các paragraph vào mảng paragraph.
+    for(let i = 0; i < indexParagraphStartArr.length; i++){
+        for(let j = indexParagraphStartArr[i]; j < tagSplit.length; j++){
+            if((/(<p>\d+\..*?<\/p>)/g).test(tagSplit[j])){
+                break;
+            }
+            paragraph.push(tagSplit[j]);
+            // ghi đè "" vào phần tử đó của tagSplit
+            tagSplit[j] = "";
+        }
+    }
+
+    //filter các phần tử "" để lấy các câu hỏi.
+    let question = tagSplit.filter(item => item !== "")
     
+    let testResult = question.filter(item => (/<p><strong>\(\w\).*?<\/p>/g).test(item))
     
+    console.log(paragraph)
+    console.log(question)
+    console.log(testResult)
 
 }
 
