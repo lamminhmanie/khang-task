@@ -23,7 +23,8 @@ function displayResult(result) {
     //Tách mỗi cặp <p></p> thành một phần tử trong mảng
     let tagSplit = text.split(/(<p>.*?<\/p>)/g)
     tagSplit = tagSplit.filter(item => item !== "");
-  
+    console.log(tagSplit);
+
     //Khai báo array chứa paragraph
     let paragraph = [];
     
@@ -40,7 +41,7 @@ function displayResult(result) {
     //Đẩy các paragraph vào mảng paragraph.
     for(let i = 0; i < indexParagraphStartArr.length; i++){
         for(let j = indexParagraphStartArr[i]; j < tagSplit.length; j++){
-            if((/(<p>\d+\..*?<\/p>)/g).test(tagSplit[j])){
+            if((/(<p>\d+\.\s+.*?<\/p>)/g).test(tagSplit[j])){
                 break;
             }
             paragraph.push(tagSplit[j]);
@@ -52,7 +53,7 @@ function displayResult(result) {
     //filter các phần tử "" để lấy các câu hỏi.
     let question = tagSplit.filter(item => item !== "")
     
-    let testResult = question.filter(item => (/<p><strong>\(\w\).*?<\/p>/g).test(item))
+    let testResult = question.filter(item => (/<p><strong>\([ABCD]\).*?<\/p>/g).test(item))
     
     console.log(paragraph)
     console.log(question)
