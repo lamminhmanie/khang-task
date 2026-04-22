@@ -5,25 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </head>
 <body>
 
 
 
 <input type="file" id="upload-docx" accept=".docx" />
-<button id="submit">submit</button>
+<button id="hide">hide output and upload</button>
 <div id="output" style="white-space: pre-wrap; margin-top: 20px; border: 1px solid #ccc; padding: 10px;">
     Nội dung file sẽ hiển thị ở đây...
 </div>
-<div>
-    <h1>Paragraph</h1>
-    <div id="paragraph"></div>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Left Column: Scrollable -->
+    <div id="paragraph" class="col-6 overflow-auto" style="height: 90vh;">
+
+    </div>
+    
+    <!-- Right Column: Fixed or independently scrollable -->
+    <div id="question" class="col-6 overflow-auto" style="height: 90vh;">
+
+    </div>
+  </div>
 </div>
-<div>
-    <h1>Question</h1>
-    <div id="question"></div>
-</div>
+
 </body>
 </html>
-<!-- <script src="app.js"></script> -->
-<script src="test.js"></script>
+<script src="app.js"></script>
+<!-- <script src="test.js"></script> -->

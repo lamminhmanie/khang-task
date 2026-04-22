@@ -9,14 +9,22 @@ document.getElementById('upload-docx').addEventListener('change', function(event
         // Sử dụng Mammoth để chuyển sang Plain Text (văn bản thuần)
         // Dùng extractRawText sẽ giúp bạn dễ xử lý thuật toán tách file hơn convertToHtml
         mammoth.convertToHtml({ arrayBuffer: arrayBuffer })
-            .then(displayResult)
+            .then(getHtmlArray)
             .catch(handleError);
     };
 
     reader.readAsArrayBuffer(file);
 });
 
-function displayResult(result) {
+document.getElementById('hide').addEventListener('click', () => {
+    document.getElementById('output').style.display = 'none';
+    document.getElementById('upload-docx').style.display = 'none';
+    // document.getElementById('hide').style.display = 'none';
+});
+
+// console.log(document.getElementById('hide'))
+
+function getHtmlArray(result) {
     const text = result.value; // Đây là toàn bộ chữ trong file Word thành html tag
     document.getElementById('output').innerHTML = text;
     
@@ -58,9 +66,31 @@ function displayResult(result) {
     console.log(paragraph)
     console.log(question)
     console.log(testResult)
-
+    displayHtml(paragraph,question,testResult);
 }
 
 function handleError(err) {
     console.error("Có lỗi xảy ra:", err);
+}
+
+
+let paragraphBlock = document.getElementById('paragraph');
+let questionBlock = document.getElementById('question');
+function displayHtml(paragraph, question, testResult){
+    let count = 0;
+    let html = ''
+    for(let i = 0; i < paragraph.length; i++){
+        if((/<p><strong>READING PASSAGE \d+\t*<\/strong><\/p>/g).test(paragraph[i])){
+            count++
+            html = ''
+            const newChild = document.createElement("div");
+            newChild.id = `reading-passage-${count}`
+            paragraphBlock.appendChild(newChild);
+        }
+        html += paragraph[i];
+        document.getElementById(`reading-passage-${count}`).innerHTML = html;
+        
+    }
+
+    
 }
